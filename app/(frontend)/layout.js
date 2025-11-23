@@ -1,4 +1,4 @@
-import "@/styles/globals.scss";
+import "@/scss/globals.scss";
 
 const Layout = ({ children }) => {
 
