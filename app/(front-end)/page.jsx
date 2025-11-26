@@ -1,6 +1,7 @@
 "use client";
 
-import { Button } from "flowbite-react";
+
+import AdvancedNavbar from "@/components/Frontend/Navbar/AdvancedNavbar";
 import { useState } from "react";
 
 export default function page() {
@@ -30,10 +31,8 @@ export default function page() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Button color="cyan" onClick={createUsers} disabled={loading}>
-        {loading ? "Creating..." : "Create Sample Users"}
-      </Button>
+    <div className="">
+      <AdvancedNavbar />
     </div>
   );
 }
