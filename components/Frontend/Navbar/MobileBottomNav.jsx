@@ -26,7 +26,7 @@ export default function MobileBottomNav({
   return (
     <motion.nav
       initial={false}
-      className="bg-white border-t border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
+      className="border-t shadow-lg bg-card border-border"
     >
       <div className="flex items-center justify-around h-16 px-2">
         {navItems.map((item, index) => (
@@ -53,7 +53,7 @@ export default function MobileBottomNav({
       </div>
 
       {/* Search Overlay (could be expanded) */}
-      <div className="absolute left-0 right-0 p-4 bg-white border-b border-gray-200 bottom-full dark:bg-gray-800 dark:border-gray-700">
+      <div className="absolute left-0 right-0 p-4 border-b bg-card border-border bottom-full">
         <SearchBar onSearch={onSearch} isMobile={true} />
       </div>
     </motion.nav>
