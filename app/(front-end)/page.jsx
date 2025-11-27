@@ -1,38 +1,52 @@
-"use client";
+'use client'
 
+import ResponsiveNavbar from "@/components/Frontend/Navbar/ResponsiveNavbar"
 
-import AdvancedNavbar from "@/components/Frontend/Navbar/AdvancedNavbar";
-import { useState } from "react";
 
 export default function page() {
-  const [loading, setLoading] = useState(false);
+  const mockUser = {
+    name: 'John Doe',
+    email: 'john@example.com',
+    avatar: '/avatar.jpg',
+    isLoggedIn: true
+  }
 
-  const createUsers = async () => {
-    setLoading(true);
+  const handleSearch = (query) => {
+    console.log('Searching for:', query)
+    // Implement search logic
+  }
 
-    try {
-      const response = await fetch("/api/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // You can send additional data if needed
-        body: JSON.stringify({}),
-      });
+  const handleLogin = () => {
+    console.log('Login triggered')
+    // Implement login logic
+  }
 
-      const data = await response.json();
-      console.log("Created users:", data);
-      alert("Users created successfully!");
-    } catch (error) {
-      console.error("Error creating users:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleLogout = () => {
+    console.log('Logout triggered')
+    // Implement logout logic
+  }
 
   return (
-    <div className="">
-      <AdvancedNavbar />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <ResponsiveNavbar
+        user={mockUser}
+        notifications={3}
+        onSearch={handleSearch}
+        onLogin={handleLogin}
+        onLogout={handleLogout}
+        currentPath="/"
+      />
+      
+      <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="py-12 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
+            Welcome to JobPost
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Find your dream job today
+          </p>
+        </div>
+      </main>
     </div>
-  );
+  )
 }
