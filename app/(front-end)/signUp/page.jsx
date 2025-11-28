@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import SignUpPage from '@/components/Frontend/SignUpPage/SignUpPage';
 
-export default function SignUp() {
+export default function Signup() {
   return (
     <>
       <Head>

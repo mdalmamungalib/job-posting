@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
 /**
@@ -15,8 +16,10 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
     email: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false
+    agreeToTerms: false,
+    role: 'user',
   });
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState({});
 
@@ -51,6 +54,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData)
     if (validateForm()) {
       onSubmit(formData);
     }
@@ -231,9 +235,17 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
         type="submit"
         whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
         whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-        className="w-full px-5 py-3 font-medium text-center text-white transition-colors duration-200 rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800 focus:outline-none"
+        className="w-full px-5 py-3 font-medium text-center text-white transition-colors duration-200 rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800 focus:outline-none bg-[#41529c] cursor-pointer"
       >
-        Create Account
+        {loading ? (
+          <>
+            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+            Creating Account...
+          </>
+        ) : (
+          "Create Account"
+        )}
+        
       </motion.button>
     </motion.form>
   );
