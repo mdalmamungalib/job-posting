@@ -5,7 +5,6 @@ import { useReducedMotion } from 'framer-motion';
 import SignUpForm from './SignUpForm';
 import SocialSignIn from './SocialSignIn';
 import SkeletonSignUp from './SkeletonSignUp';
-
 /**
  * SignUpPage Component Props:
  * - isLoading?: boolean

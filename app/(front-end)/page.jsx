@@ -3,13 +3,6 @@
 import ResponsiveNavbar from "@/components/Frontend/Navbar/ResponsiveNavbar";
 
 export default function page() {
-  const mockUser = {
-    name: "John Doe",
-    email: "john@example.com",
-    avatar: "/avatar.jpg",
-    isLoggedIn: true,
-  };
-
   const handleSearch = (query) => {
     console.log("Searching for:", query);
     // Implement search logic
@@ -28,7 +21,6 @@ export default function page() {
   return (
     <div className="min-h-screen bg-background">
       <ResponsiveNavbar
-        user={mockUser}
         notifications={3}
         onSearch={handleSearch}
         onLogin={handleLogin}

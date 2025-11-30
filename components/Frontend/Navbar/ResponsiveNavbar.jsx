@@ -17,7 +17,6 @@ import Skeleton from './Skeleton'
  * - currentPath: string
  */
 export default function ResponsiveNavbar({
-  user = {},
   notifications = 0,
   isLoading = false,
   onSearch = () => {},
@@ -53,7 +52,6 @@ export default function ResponsiveNavbar({
   }
 
   const navProps = {
-    user,
     notifications,
     onSearch,
     onLogin,
