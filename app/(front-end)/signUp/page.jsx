@@ -6,7 +6,7 @@ const page = () => {
   return (
     <>
       <Head>
-        <title>Sign Up - Job Posting Platform</title>
+        <title className="">Sign Up - Job Posting Platform</title>
         <meta
           name="description"
           content="Create your account to start applying for jobs"
