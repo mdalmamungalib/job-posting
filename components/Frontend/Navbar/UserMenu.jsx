@@ -25,7 +25,7 @@ export default function UserMenu({ user = {}, onLogin, shouldReduceMotion }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (!currentUser?.isLoggedIn) {
+  if (!currentUser && !currentUser?.email) {
     return (
       <Link href="/signup" className="cursor-pointer">
       <motion.button whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }} whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}  className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors min-h-[44px] text-sm font-medium cursor-pointer">

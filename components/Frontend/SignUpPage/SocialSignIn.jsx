@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
 
 /**
  * SocialSignIn Component Props:
