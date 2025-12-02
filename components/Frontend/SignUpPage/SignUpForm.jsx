@@ -2,56 +2,35 @@
 
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-/**
- * SignUpForm Component Props:
- * - onSubmit?: (formData) => void
- * - shouldReduceMotion?: boolean
- */
-const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
-  });
+const SignUpForm = ({ onSubmit: onSubmitProp = () => {}, shouldReduceMotion = false }) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+    watch,
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      agreeToTerms: false,
+    },
+  });
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData?.firstName?.trim())
-      newErrors.firstName = "First name is required";
-    if (!formData?.lastName?.trim())
-      newErrors.lastName = "Last name is required";
-    if (!formData?.email?.trim()) newErrors.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = "Invalid email format";
-    if (!formData?.password) newErrors.password = "Password is required";
-    else if (formData.password.length < 8)
-      newErrors.password = "Password must be at least 8 characters";
-    if (formData.password !== formData.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
-    if (!formData.agreeToTerms)
-      newErrors.agreeToTerms = "You must agree to the terms";
-
-    return Object.keys(newErrors).length === 0;
-  };
+  const password = watch("password");
 
   async function onSubmit(data) {
-    console.log(data);
     try {
       setLoading(true);
       const response = await fetch("/api/users", {
@@ -61,15 +40,25 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
         },
         body: JSON.stringify(data),
       });
+      
       const result = await response.json();
       
-      console.log(response)
+      if (!response.ok) {
+        toast.error(result.message || "Signup failed");
+        return;
+      } else {
+        toast.success("Account created successfully!");
+        reset();
+        router.push("/login");
+      }
+      
+      // Call the parent component's onSubmit if provided
+      onSubmitProp(result);
     } catch (error) {
       toast.error("An error occurred. Please try again.");
       console.error("SignUpForm submission error:", error);
     } finally {
       setLoading(false);
-      reset();
     }
   }
 
@@ -111,7 +100,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
             <p
               id="firstName-error"
               className="mt-1 text-sm text-red-600 dark:text-red-400">
-              {errors.firstName}
+              {errors.firstName.message}
             </p>
           )}
         </div>
@@ -138,7 +127,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
             <p
               id="lastName-error"
               className="mt-1 text-sm text-red-600 dark:text-red-400">
-              {errors.lastName}
+              {errors.lastName.message}
             </p>
           )}
         </div>
@@ -157,6 +146,10 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
           type="email"
           {...register("email", {
             required: "Email is required",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Invalid email format",
+            },
           })}
           className="w-full px-3 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
           placeholder="john@example.com"
@@ -167,7 +160,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
           <p
             id="email-error"
             className="mt-1 text-sm text-red-600 dark:text-red-400">
-            {errors.email}
+            {errors.email.message}
           </p>
         )}
       </div>
@@ -185,6 +178,10 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
           type="password"
           {...register("password", {
             required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters",
+            },
           })}
           className="w-full px-3 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
           placeholder="••••••••"
@@ -195,7 +192,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
           <p
             id="password-error"
             className="mt-1 text-sm text-red-600 dark:text-red-400">
-            {errors.password}
+            {errors.password.message}
           </p>
         )}
       </div>
@@ -213,6 +210,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
           type="password"
           {...register("confirmPassword", {
             required: "Confirm Password is required",
+            validate: (value) => value === password || "Passwords do not match",
           })}
           className="w-full px-3 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
           placeholder="••••••••"
@@ -225,7 +223,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
           <p
             id="confirmPassword-error"
             className="mt-1 text-sm text-red-600 dark:text-red-400">
-            {errors.confirmPassword}
+            {errors.confirmPassword.message}
           </p>
         )}
       </div>
@@ -260,7 +258,7 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
       </div>
       {errors?.agreeToTerms && (
         <p id="terms-error" className="text-sm text-red-600 dark:text-red-400">
-          {errors.agreeToTerms}
+          {errors.agreeToTerms.message}
         </p>
       )}
 
@@ -271,10 +269,10 @@ const SignUpForm = ({ onSubmit = () => {}, shouldReduceMotion = false }) => {
         whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
         className="w-full px-5 py-3 font-medium text-center text-white transition-colors duration-200 rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800 focus:outline-none bg-[#41529c] cursor-pointer">
         {loading ? (
-          <>
+          <div className="flex items-center justify-center">
             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
             Creating Account...
-          </>
+          </div>
         ) : (
           "Create Account"
         )}

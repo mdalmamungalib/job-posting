@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useReducedMotion } from "framer-motion";
-import SignUpForm from "./SignUpForm";
-import SocialSignIn from "./SocialSignIn";
-import SkeletonSignUp from "./SkeletonSignUp";
+import SkeletonSignUp from "../SignUpPage/SkeletonSignUp";
+import LoginForm from "./LoginForm";
+import SocialSignIn from "../SignUpPage/SocialSignIn";
 import Link from "next/link";
 /**
  * SignUpPage Component Props:
@@ -13,7 +13,7 @@ import Link from "next/link";
  * - onSubmit?: (data) => void
  * - onSocialSignIn?: (provider) => void
  */
-const SignUpPage = ({
+const Login = ({
   isLoading = false,
   error = null,
   onSubmit = () => {},
@@ -64,7 +64,7 @@ const SignUpPage = ({
               Join Our Job Platform
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 sm:text-base">
-              Create your account to start applying for jobs
+              Login to start applying for jobs
             </p>
           </motion.div>
 
@@ -91,13 +91,13 @@ const SignUpPage = ({
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 text-gray-500 bg-white dark:bg-gray-800 dark:text-gray-400">
-                Or continue with email
+                Or continue with email or password
               </span>
             </div>
           </div>
 
           {/* Sign Up Form */}
-          <SignUpForm
+          <LoginForm
             onSubmit={onSubmit}
             shouldReduceMotion={shouldReduceMotion}
           />
@@ -111,9 +111,9 @@ const SignUpPage = ({
           className="mt-6 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{" "}
-            <Link href="/login">
+            <Link href="/signup">
               <button className="font-medium rounded cursor-pointer text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-primary-500">
-                Login
+                Sign Up
               </button>
             </Link>
           </p>
@@ -123,4 +123,4 @@ const SignUpPage = ({
   );
 };
 
-export default SignUpPage;
+export default Login;
