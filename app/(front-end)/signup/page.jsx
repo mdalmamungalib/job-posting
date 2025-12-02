@@ -1,4 +1,3 @@
-"use client";
 import Head from "next/head";
 import SignUpPage from "@/components/Frontend/SignUpPage/SignUpPage";
 

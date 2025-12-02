@@ -1,4 +1,4 @@
-"use client";
+import React, { Suspense } from "react";
 import Head from "next/head";
 import Login from "@/components/Frontend/Login/Loagin";
 
@@ -12,7 +12,15 @@ const page = () => {
           content="Create your account to start applying for jobs"
         />
       </Head>
-      <Login />
+
+      <Suspense
+        fallback={
+          <div className="min-h-[200px] flex items-center justify-center">
+            Loading...
+          </div>
+        }>
+        <Login />
+      </Suspense>
     </>
   );
 };

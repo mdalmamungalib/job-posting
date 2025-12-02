@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+export const dynamic = "force-dynamic";
 
 const SignUpForm = ({ onSubmit: onSubmitProp = () => {}, shouldReduceMotion = false }) => {
   const [loading, setLoading] = useState(false);
