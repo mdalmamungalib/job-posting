@@ -1,17 +1,18 @@
-import { withAuth } from "next-auth/middleware"
+import { withAuth } from "next-auth/middleware";
 
 export default withAuth({
-  // Matches the pages config in `[...nextauth]`
   pages: {
-    signIn: "/login",
-    register: "/signup",
+    signIn: "/login", // where to redirect unauthenticated users
     signOut: "/logout",
     error: "/error",
   },
-})
+  callbacks: {
+    // only allow requests with a valid token/session
+    authorized: ({ token }) => !!token,
+  },
+});
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|login|signup|register-seller|seller-pricing|verifyEmail|forgot-password|reset-password|products|$).*)",
-  ],
-}
+  // protect only dashboard/admin-related routes (explicit & safer)
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/profile/:path*",],
+};
