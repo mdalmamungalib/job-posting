@@ -1,4 +1,0 @@
-- [x] Update Basic Information section background to bg-theme-light
-- [x] Update Job Details section background to bg-theme-primary
-- [x] Update Requirements & Benefits section background to bg-theme-dark
-- [x] Update Application Details section background to bg-theme-light

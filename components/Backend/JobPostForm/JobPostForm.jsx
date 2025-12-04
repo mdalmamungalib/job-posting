@@ -90,8 +90,13 @@ export default function JobPostForm({
   // }
 
   const onSubmit = async (data) => {
-    console.log(data)
+    try {
+      
+    } catch (error) {
+      
+    }
   }
+  
   const onCancelClick = () => {
     reset()
     onCancel?.()
